@@ -42,12 +42,12 @@ int scratch_write(unsigned i, unsigned long magic)
 
 	limit = PAGE_SIZE / sizeof(unsigned long);
 
-	base = kmap(p);
+	base = kmap_atomic(p);
 	for (x=0; x < limit; x++) {
 		base[x] = magic;
 	}
 
-	kunmap(p);
+	kunmap_atomic(base);
 	//maddr[i] = base;
 
 	return 0;
@@ -80,7 +80,7 @@ int kmemscratch_init(void)
 		struct page *p = alloc_page(GFP_KERNEL);
 		BUG_ON(!p);
 
-		scratchpad[i] = p; get_page(p);
+		scratchpad[i] = p; // get_page(p);
 
 		scratch_write(i, pattern[i]);
 	}
@@ -98,7 +98,7 @@ void kmemscratch_exit(void)
 
 		if (p != NULL) {
 			//kunmap(maddr[i]);
-			put_page(p);
+			// put_page(p);
 			__free_pages(p, 0);
 		}
 	}

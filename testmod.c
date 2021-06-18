@@ -192,7 +192,7 @@ static int testmod_mmap(struct file *f, struct vm_area_struct *vma)
 	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP | VM_PFNMAP | VM_MIXEDMAP;
 	// vma->vm_private_data = filp->private_data;
 	//
-#if 0
+#if 1
 {
 	int i;
 	unsigned long pfn;
@@ -204,8 +204,8 @@ static int testmod_mmap(struct file *f, struct vm_area_struct *vma)
 		// addr = getpage(i);
 		// if (!addr) return -ENOMEM;
 
-		zap_vma_ptes(vma, start, PAGE_SIZE);
 		pr_info("zap_vma_ptes for addr %lx", start);
+		zap_vma_ptes(vma, start, PAGE_SIZE);
 
 		// pfn = virt_to_phys(addr) >> PAGE_SHIFT;
 		// pfn = virt_to_phys(addr) >> PAGE_SHIFT;
